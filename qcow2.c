@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include <errno.h>
 #include <endian.h>
+#include <byteswap.h>
 #include <string.h>
 #include <sys/mman.h>
 
@@ -36,6 +37,24 @@ struct qcow2 {
 		uint64_t offset;	/* 0 when unused */
 	} cluster[KIND_MAX];
 };
+
+/* Usually provided by endian.h, needed for glibc pre-2008 */
+
+#if __BYTE_ORDER == __LITTLE_ENDIAN
+#  ifndef be32toh
+#    define be32toh(x) bswap_32 (x)
+#  endif
+#  ifndef be64toh
+#    define be64toh(x) bswap_64 (x)
+#  endif
+#else
+#  ifndef be32toh
+#    define be32toh(x) (x)
+#  endif
+#  ifndef be64toh
+#    define be64toh(x) (x)
+#  endif
+#endif
 
 /* Endian conversion with unaligned pointers */
 
