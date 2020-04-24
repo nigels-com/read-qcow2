@@ -1,5 +1,5 @@
 
-CFLAGS ?= -Wall -pedantic -g
+CFLAGS ?= -Wall -pedantic -g -D_GNU_SOURCE
 OBJS = catqcow2.o qcow2.o
 
 catqcow2: $(OBJS)
